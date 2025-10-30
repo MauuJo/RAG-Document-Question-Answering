@@ -56,11 +56,16 @@ class VectorStore:
             api_key=self.pinecone_api_key
         )
 
+        if not self.embeddings:
+            # Handle case where no chunks were created/embedded (e.g., empty PDF)
+            print("Warning: No embeddings generated. Skipping index creation.")
+            return
+
         index_name = 'rag-qa-bot'
         if index_name not in pc.list_indexes().names():
             pc.create_index(
                 name=index_name,
-                dimension=len(self.docs_embs[0]),
+                dimension=len(self.embeddings[0]),
                 metric='cosine',
                 spec=ServerlessSpec(
                     cloud='aws',
@@ -82,6 +87,7 @@ class VectorStore:
             query=query,
             documents=docs_to_rerank,
             top_n=self.rerank_top_k,
-            model="rerank-english-v2.0"
+            model="rerank-v3.5"
         )
+        # return [res['matches'][result.index]['metadata'] for result in rerank_results.results]
         return [res['matches'][result.index]['metadata'] for result in rerank_results.results]
