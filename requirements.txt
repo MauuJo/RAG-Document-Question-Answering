@@ -1,5 +1,7 @@
-streamlit==1.33.0 
+streamlit==1.33.0
 cohere==5.9.0
-pinecone-client==5.0.0
+pinecone>=3.0.0
 PyMuPDF==1.24.14
 sentence-transformers==3.3.1
+langchain-text-splitters
+langchain-community
