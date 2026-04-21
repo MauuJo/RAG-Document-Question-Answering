@@ -57,17 +57,29 @@ An advanced **Retrieval-Augmented Generation (RAG)** chatbot that allows users t
 ## 🏗️ Architecture
 
 User Query
+
 ↓
+
 Agent Router (CHAT / RAG)
+
 ↓
+
 If CHAT → Direct LLM Response
+
 ↓
+
 If RAG:
+
 → Query Expansion
+
 → Hybrid Search (Pinecone)
+
 → Retrieve Context
+
 → Generate Answer (Cohere)
+
 ↓
+
 Streaming Response
 
 ---
@@ -91,8 +103,10 @@ docker pull mauujo/rag-document-question-answering:1.0
 
 ### 2. Create `.env`
 
-INTERVIEW_PASSWORD=your_password
+ACCESS_PASSWORD=your_password
+
 COHERE_API_KEY=your_cohere_key
+
 PINECONE_API_KEY=your_pinecone_key
 
 ### 3. Run
@@ -108,12 +122,15 @@ App runs at: [http://localhost:8501](http://localhost:8501)
 ### 1. Clone Repo
 
 git clone https://github.com/MauuJo/RAG-Document-Question-Answering.git
+
 cd RAG-Document-Question-Answering
 
 ### 2. Setup Environment
 
 python -m venv venv
+
 source venv/bin/activate # Mac/Linux
+
 venv\Scripts\activate # Windows
 
 ### 3. Install Dependencies
@@ -122,8 +139,10 @@ pip install -r requirements.txt
 
 ### 4. Create `.env`
 
-INTERVIEW_PASSWORD=your_password
+ACCESS_PASSWORD=your_password
+
 COHERE_API_KEY=your_cohere_key
+
 PINECONE_API_KEY=your_pinecone_key
 
 ### 5. Run App
@@ -138,7 +157,9 @@ streamlit run entrypoint/app.py
 2. Add secrets:
 
 COHERE_API_KEY=...
+
 PINECONE_API_KEY=...
+
 INTERVIEW_PASSWORD=...
 
 3. Deploy
@@ -148,17 +169,29 @@ INTERVIEW_PASSWORD=...
 ## 📂 Project Structure
 
 RAG-Document-Question-Answering/
+
 │
+
 ├── entrypoint/
+
 │ └── app.py
+
 ├── src/
+
 │ ├── chatbot.py
+
 │ ├── retriever.py
+
 │ └── ingestion.py
+
 ├── docs/
+
 ├── Dockerfile
+
 ├── requirements.txt
+
 ├── packages.txt
+
 └── README.md
 
 ---
