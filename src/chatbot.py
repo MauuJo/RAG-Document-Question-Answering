@@ -5,7 +5,7 @@ class Chatbot:
     def __init__(self, vectorstore, cohere_api_key: str):
         self.vectorstore = vectorstore
         self.conversation_id = str(uuid.uuid4())
-        self.co = cohere.Client(cohere_api_key)
+        self.co = cohere.Client(cohere_api_key, timeout=120)
 
     def _route_query(self, user_message: str) -> str:
         """

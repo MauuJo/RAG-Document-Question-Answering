@@ -182,12 +182,15 @@ def main():
                 message_placeholder = st.empty()
                 
                 # Stream the text
-                for event in response_stream:
-                    if event.event_type == "text-generation":
-                        full_response_text += event.text
-                        message_placeholder.markdown(full_response_text + "▌")
-                
-                message_placeholder.markdown(full_response_text)
+                try:
+                    for event in response_stream:
+                        if event.event_type == "text-generation":
+                            full_response_text += event.text
+                            message_placeholder.markdown(full_response_text + "▌")
+                    message_placeholder.markdown(full_response_text)
+                except Exception as e:
+                    st.error("The connection was interrupted. Please try asking again.")
+                    print(f"Streaming Error: {e}")
                 
                 # FIX 1 & 2: Hide sources if it's a fallback answer, and use an expander
                 fallback_message = "I cannot answer this based on the provided document."
