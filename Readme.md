@@ -29,8 +29,6 @@
 | --------------------------------- | --------------------------------- | ------------------------------- |
 | ![App UI](./docs/screenshot1.png) | ![Upload](./docs/screenshot2.png) | ![Chat](./docs/screenshot3.png) |
 
-> 💡 Place your screenshots inside a `docs/` folder in the repo root.
-
 </div>
 
 ---
@@ -239,8 +237,6 @@ RAG-Document-Question-Answering/
 | `COHERE_API_KEY`                         | ✅ Yes   | Your Cohere API key for LLM + embeddings |
 | `PINECONE_API_KEY`                       | ✅ Yes   | Your Pinecone API key for vector storage |
 | `ACCESS_PASSWORD` / `INTERVIEW_PASSWORD` | ✅ Yes   | Password to gate access to the app UI    |
-
-> ⚠️ **Never commit your `.env` file.** Add it to `.gitignore` before pushing.
 
 ---
 
