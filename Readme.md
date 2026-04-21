@@ -1,4 +1,3 @@
-```markdown
 # 🧠 Advanced Agentic RAG Chatbot
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue.svg)
@@ -56,7 +55,6 @@ An advanced **Retrieval-Augmented Generation (RAG)** chatbot that allows users t
 ---
 
 ## 🏗️ Architecture
-```
 
 User Query
 ↓
@@ -71,8 +69,6 @@ If RAG:
 → Generate Answer (Cohere)
 ↓
 Streaming Response
-
-````
 
 ---
 
@@ -90,23 +86,18 @@ Streaming Response
 ## 🚀 Quickstart (Docker)
 
 ### 1. Pull Image
-```bash
+
 docker pull mauujo/rag-document-question-answering:1.0
-````
 
 ### 2. Create `.env`
 
-```
 INTERVIEW_PASSWORD=your_password
 COHERE_API_KEY=your_cohere_key
 PINECONE_API_KEY=your_pinecone_key
-```
 
 ### 3. Run
 
-```bash
 docker run -p 8501:8501 --env-file .env <YOUR_DOCKERHUB_USERNAME>/advanced-rag-bot:1.0
-```
 
 App runs at: [http://localhost:8501](http://localhost:8501)
 
@@ -116,38 +107,28 @@ App runs at: [http://localhost:8501](http://localhost:8501)
 
 ### 1. Clone Repo
 
-```bash
 git clone https://github.com/MauuJo/RAG-Document-Question-Answering.git
 cd RAG-Document-Question-Answering
-```
 
 ### 2. Setup Environment
 
-```bash
 python -m venv venv
-source venv/bin/activate      # Mac/Linux
-venv\Scripts\activate         # Windows
-```
+source venv/bin/activate # Mac/Linux
+venv\Scripts\activate # Windows
 
 ### 3. Install Dependencies
 
-```bash
 pip install -r requirements.txt
-```
 
 ### 4. Create `.env`
 
-```
 INTERVIEW_PASSWORD=your_password
 COHERE_API_KEY=your_cohere_key
 PINECONE_API_KEY=your_pinecone_key
-```
 
 ### 5. Run App
 
-```bash
 streamlit run entrypoint/app.py
-```
 
 ---
 
@@ -156,11 +137,9 @@ streamlit run entrypoint/app.py
 1. Connect GitHub repo
 2. Add secrets:
 
-```
 COHERE_API_KEY=...
 PINECONE_API_KEY=...
 INTERVIEW_PASSWORD=...
-```
 
 3. Deploy
 
@@ -168,21 +147,19 @@ INTERVIEW_PASSWORD=...
 
 ## 📂 Project Structure
 
-```
 RAG-Document-Question-Answering/
 │
 ├── entrypoint/
-│   └── app.py
+│ └── app.py
 ├── src/
-│   ├── chatbot.py
-│   ├── retriever.py
-│   └── ingestion.py
+│ ├── chatbot.py
+│ ├── retriever.py
+│ └── ingestion.py
 ├── docs/
 ├── Dockerfile
 ├── requirements.txt
 ├── packages.txt
 └── README.md
-```
 
 ---
 
