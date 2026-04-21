@@ -14,3 +14,8 @@ __pycache__/
 uploaded_document.pdf  # Assuming this is a temporary upload
 *.env
 *key*.txt
+
+.env
+
+
+data/raw/
