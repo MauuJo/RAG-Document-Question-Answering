@@ -44,67 +44,72 @@ def main():
   
     with st.sidebar:
         st.header("Setup 🔑")
-        
-        # 1. Interviewer Access Feature
-        st.info("Enter the access code to load sample API keys.")
-        access_code = st.text_input("Access Code", type="password")
-        
-        # Determine if we should load the real keys from the .env file
-        correct_password = os.getenv("INTERVIEW_PASSWORD", "interview2026") # Added a fallback just in case
-        
-        default_cohere = ""
-        default_pinecone = ""
-        
-        if access_code:
-            if access_code == correct_password:
-                default_cohere = os.getenv("COHERE_API_KEY", "")
-                default_pinecone = os.getenv("PINECONE_API_KEY", "")
-                st.success("Sample keys loaded successfully!")
-            else:
-                st.error("Incorrect Access Code. Please enter the correct code, or generate your own free API keys using the links below.")
+        # 1. Initialize session state variables for the keys so they aren't empty on first load
+        if "cohere_key" not in st.session_state:
+            st.session_state["cohere_key"] = ""
+        if "pinecone_key" not in st.session_state:
+            st.session_state["pinecone_key"] = ""
 
-        # 2. Links to obtain API keys
-        st.markdown(
+        # 2. Access Code Logic
+        st.sidebar.header("Configuration")
+        access_code = st.sidebar.text_input("Enter access code (optional)", type="password")
+
+        if access_code:
+            if access_code == os.getenv("INTERVIEW_PASSWORD"):
+                st.sidebar.success("Loaded successfully!")
+                # This magically auto-fills the text inputs below because they share the same 'key'
+                st.session_state["cohere_key"] = os.getenv("COHERE_API_KEY", "")
+                st.session_state["pinecone_key"] = os.getenv("PINECONE_API_KEY", "")
+            else:
+                st.sidebar.error("Incorrect Access Code. Please enter the correct code, or provide your own keys.")
+
+        st.sidebar.markdown(
             "Don't have keys? [Get Cohere Key](https://dashboard.cohere.com/api-keys) | [Get Pinecone Key](https://app.pinecone.io/)"
         )
-        
-        # API Key Inputs
-        cohere_api_key = st.text_input("Cohere API Key", type="password", value=default_cohere, key="cohere_key")
-        pinecone_api_key = st.text_input("Pinecone API Key", type="password", value=default_pinecone, key="pinecone_key")
 
-        uploaded_file = st.file_uploader("Upload a PDF file", type="pdf", key="pdf_uploader")
+        # 3. The actual API Key Inputs (Notice how they link directly to the session_state keys)
+        cohere_api_key = st.sidebar.text_input("Cohere API Key", type="password", key="cohere_key")
+        pinecone_api_key = st.sidebar.text_input("Pinecone API Key", type="password", key="pinecone_key")
 
-        if st.button("Process Document and Initialize Chat"):
+        # 4. Document Upload & Processing
+        uploaded_file = st.sidebar.file_uploader("Upload a PDF file", type="pdf", key="pdf_uploader")
+
+        if st.sidebar.button("Process Document and Initialize Chat"):
             if uploaded_file and cohere_api_key and pinecone_api_key:
                 st.session_state["uploaded_file_name"] = uploaded_file.name
-                save_uploaded_file(uploaded_file)
+                # Note: Ensure save_uploaded_file handles saving to data/raw/uploaded_document.pdf
+                save_uploaded_file(uploaded_file) 
                 
                 with st.spinner(f"Processing {uploaded_file.name} with Hybrid Search..."):
                     try:
                         file_path = os.path.join("data", "raw", "uploaded_document.pdf")
+                        
+                        # Initialize the VectorStore
                         vectorstore = VectorStore(
                             pdf_path=file_path, 
                             cohere_api_key=cohere_api_key, 
                             pinecone_api_key=pinecone_api_key,
-                            namespace=st.session_state["session_id"]
+                            namespace=st.session_state.get("session_id", "default-session")
                         )
                         st.session_state["vectorstore"] = vectorstore
 
+                        # Initialize the Chatbot
                         chatbot = Chatbot(vectorstore, cohere_api_key)
                         st.session_state["chatbot"] = chatbot
                         
+                        # Setup initial chat message
                         st.session_state["messages"] = [
                             {"role": "assistant", "content": f"Document **{uploaded_file.name}** processed successfully! Ask your first question."}
                         ]
-                        st.success("Initialization complete! Chat is ready.")
+                        st.sidebar.success("Initialization complete! Chat is ready.")
+                    
                     except Exception as e:
-                        st.error(f"Error during initialization: {e}")
+                        st.sidebar.error(f"Error during initialization: {e}")
                         st.session_state["vectorstore"] = None
                         st.session_state["chatbot"] = None
                         st.session_state["messages"] = [{"role": "assistant", "content": f"ERROR: Could not initialize. Details: {e}"}]
-
             else:
-                st.error("Please provide both API keys and upload a PDF.")
+                st.sidebar.error("Please provide both API keys and upload a PDF.")
 
         # --- 4. New Cleanup Section with Popup & Bright Button ---
         st.markdown("---")
