@@ -10,7 +10,7 @@ Thumbs.db
 
 # Streamlit/Python Cache and Pinecone Index Data
 __pycache__/
-.streamlit/
+
 uploaded_document.pdf  # Assuming this is a temporary upload
 *.env
 *key*.txt

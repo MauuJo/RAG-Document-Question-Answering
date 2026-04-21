@@ -1,0 +1,7 @@
+[server]
+# This stops Streamlit from scanning libraries and throwing Torchvision errors
+fileWatcherType = "none"
+
+[browser]
+# Optional: This removes the "Manage App" footer for a cleaner look
+gatherUsageStats = false
